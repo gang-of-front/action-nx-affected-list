@@ -139,8 +139,9 @@ const executeNxCommands = ({ commands, workspace }) => {
 function getNxAffected({ base, head, type, workspace }) {
     const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`;
     const commands = [
-        `./node_modules/.bin/nx affected:${type} --plain ${args}`,
-        `npx nx affected:${type} --plain ${args}`
+        `./node_modules/.bin/nx print-affected --type${type} ${args}`,
+        `nx  print-affected --type${type} ${args}`,
+        `npx nx print-affected --type${type} ${args}`
     ];
     const result = executeNxCommands({ commands, workspace });
     if (!result) {
