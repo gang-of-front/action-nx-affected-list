@@ -33,14 +33,13 @@ const executeNxCommands = ({
 export function getNxAffected({
   base,
   head,
-  type,
   workspace
 }: GetNxAffectedProps): string[] {
   const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`
   const commands = [
-    `./node_modules/.bin/nx print-affected --type${type} ${args}`,
-    `nx  print-affected --type${type} ${args}`,
-    `npx nx print-affected --type${type} ${args}`
+    `./node_modules/.bin/nx print-affected ${args}`,
+    `nx  print-affected ${args}`,
+    `npx nx print-affected ${args}`
   ]
   const result = executeNxCommands({commands, workspace})
 
