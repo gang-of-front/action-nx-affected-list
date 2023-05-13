@@ -15,6 +15,8 @@ export async function run(workspace = '.'): Promise<void> {
       type: 'apps',
       workspace: GITHUB_WORKSPACE
     })
+
+    core.debug(`Result affected: ${apps}`)
     core.setOutput('affectedApps', apps)
     core.setOutput('hasAffectedApps', apps.length > 0)
     core.info(`Affected apps: ${apps.length > 0 ? apps.join() : 'none'}`)
