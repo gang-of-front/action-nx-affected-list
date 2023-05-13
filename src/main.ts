@@ -22,7 +22,9 @@ export async function run(workspace = '.'): Promise<void> {
     core.debug(`Result projects: ${projects}`)
     core.setOutput('affected', projects)
     core.setOutput('hasAffected', projects.length > 0)
-    core.info(`Affected projects: ${projects.length > 0 ? projects.join() : 'none'}`)
+    core.info(
+      `Affected projects: ${projects.length > 0 ? projects.join() : 'none'}`
+    )
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     core.setFailed((error as any).message)

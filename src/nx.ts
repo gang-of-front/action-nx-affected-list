@@ -34,7 +34,8 @@ export function getNxAffected({
   base,
   head,
   workspace
-}: GetNxAffectedProps): Record<string, any> {
+}: // eslint-disable-next-line @typescript-eslint/no-explicit-any
+GetNxAffectedProps): Record<string, any> {
   const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`
   const commands = [
     `./node_modules/.bin/nx print-affected ${args}`,

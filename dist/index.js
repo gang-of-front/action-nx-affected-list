@@ -49,16 +49,18 @@ function run(workspace = '.') {
             const base = core.getInput('base');
             const head = core.getInput('head');
             core.info(`using dir: ${GITHUB_WORKSPACE}`);
-            const apps = (0, nx_1.getNxAffected)({
+            const result = (0, nx_1.getNxAffected)({
                 base,
                 head,
                 type: 'apps',
                 workspace: GITHUB_WORKSPACE
             });
-            core.debug(`Result affected: ${apps}`);
-            core.setOutput('affectedApps', apps);
-            core.setOutput('hasAffectedApps', apps.length > 0);
-            core.info(`Affected apps: ${apps.length > 0 ? apps.join() : 'none'}`);
+            const { projects } = result;
+            core.debug(`Result: ${result}`);
+            core.debug(`Result projects: ${projects}`);
+            core.setOutput('affected', projects);
+            core.setOutput('hasAffected', projects.length > 0);
+            core.info(`Affected projects: ${projects.length > 0 ? projects.join() : 'none'}`);
         }
         catch (error) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -134,13 +136,9 @@ function getNxAffected({ base, head, workspace }) {
     const result = executeNxCommands({ commands, workspace });
     if (!result) {
         core.info('Looks like no changes were found...');
-        return [];
+        return {};
     }
-    const affected = result
-        .split(' ')
-        .map(x => x.trim())
-        .filter(x => x.length > 0);
-    return affected || [];
+    return JSON.parse(result);
 }
 exports.getNxAffected = getNxAffected;
 
