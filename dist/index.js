@@ -58,19 +58,6 @@ function run(workspace = '.') {
             core.setOutput('affectedApps', apps);
             core.setOutput('hasAffectedApps', apps.length > 0);
             core.info(`Affected apps: ${apps.length > 0 ? apps.join() : 'none'}`);
-            const libs = (0, nx_1.getNxAffected)({
-                base,
-                head,
-                type: 'libs',
-                workspace: GITHUB_WORKSPACE
-            });
-            core.setOutput('affectedLibs', libs);
-            core.setOutput('hasAffectedLibs', libs.length > 0);
-            core.info(`Affected libs: ${libs.length > 0 ? libs.join() : 'none'}`);
-            const projects = apps.concat(libs);
-            core.setOutput('affected', projects);
-            core.setOutput('hasAffected', projects.length > 0);
-            core.info(`Affected projects: ${projects.length > 0 ? projects.join() : 'none'}`);
         }
         catch (error) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,12 +123,12 @@ const executeNxCommands = ({ commands, workspace }) => {
     }
     return result;
 };
-function getNxAffected({ base, head, type, workspace }) {
+function getNxAffected({ base, head, workspace }) {
     const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`;
     const commands = [
-        `./node_modules/.bin/nx print-affected --type${type} ${args}`,
-        `nx  print-affected --type${type} ${args}`,
-        `npx nx print-affected --type${type} ${args}`
+        `./node_modules/.bin/nx print-affected ${args}`,
+        `nx  print-affected ${args}`,
+        `npx nx print-affected ${args}`
     ];
     const result = executeNxCommands({ commands, workspace });
     if (!result) {
