@@ -9,17 +9,20 @@ export async function run(workspace = '.'): Promise<void> {
 
     core.info(`using dir: ${GITHUB_WORKSPACE}`)
 
-    const apps = getNxAffected({
+    const result = getNxAffected({
       base,
       head,
       type: 'apps',
       workspace: GITHUB_WORKSPACE
     })
 
-    core.debug(`Result affected: ${apps}`)
-    core.setOutput('affectedApps', apps)
-    core.setOutput('hasAffectedApps', apps.length > 0)
-    core.info(`Affected apps: ${apps.length > 0 ? apps.join() : 'none'}`)
+    const {projects} = result
+
+    core.debug(`Result: ${result}`)
+    core.debug(`Result projects: ${projects}`)
+    core.setOutput('affectedProjects', projects)
+    core.setOutput('hasAffectedProjects', projects.length > 0)
+    core.info(`Affected projects: ${projects.length > 0 ? projects.join() : 'none'}`)
   } catch (error) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     core.setFailed((error as any).message)

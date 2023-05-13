@@ -34,7 +34,7 @@ export function getNxAffected({
   base,
   head,
   workspace
-}: GetNxAffectedProps): string[] {
+}: GetNxAffectedProps): Record<string, any> {
   const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`
   const commands = [
     `./node_modules/.bin/nx print-affected ${args}`,
@@ -45,13 +45,8 @@ export function getNxAffected({
 
   if (!result) {
     core.info('Looks like no changes were found...')
-    return []
+    return {}
   }
 
-  const affected = result
-    .split(' ')
-    .map(x => x.trim())
-    .filter(x => x.length > 0)
-
-  return affected || []
+  return JSON.parse(result)
 }
