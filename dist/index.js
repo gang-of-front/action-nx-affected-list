@@ -49,12 +49,14 @@ function run(workspace = '.') {
             const base = core.getInput('base');
             const head = core.getInput('head');
             core.info(`using dir: ${GITHUB_WORKSPACE}`);
+            core.info(`input base: ${base}`);
+            core.info(`input headdi: ${head}`);
             const projects = (0, nx_1.getNxAffected)({
                 base,
                 head,
                 workspace: GITHUB_WORKSPACE
             });
-            core.debug(`Result: ${projects}`);
+            core.info(`Result: ${projects}`);
             core.setOutput('affected', projects);
             core.setOutput('hasAffected', projects.length > 0);
             core.info(`Affected projects: ${projects.length > 0 ? projects.join() : 'none'}`);
@@ -108,7 +110,7 @@ const executeNxCommands = ({ commands, workspace }) => {
     let result = null;
     for (const cmd of commands) {
         try {
-            core.debug(`Attempting to run command: ${cmd}`);
+            core.info(`Attempting to run command: ${cmd}`);
             result = (0, child_process_1.execSync)(cmd, { cwd: workspace }).toString();
             cmdSuccessful = true;
             break;
@@ -131,6 +133,8 @@ function getNxAffected({ base, head, workspace }) {
         // `nx  print-affected ${args}`,
         `npx nx show projects --affected --json ${args}`
     ];
+    core.info(`Command: ${commands.join('\n')}`);
+    core.info(`args: ${args}`);
     const result = executeNxCommands({ commands, workspace });
     if (!result) {
         core.info('Looks like no changes were found...');

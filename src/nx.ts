@@ -11,7 +11,7 @@ const executeNxCommands = ({
 
   for (const cmd of commands) {
     try {
-      core.debug(`Attempting to run command: ${cmd}`)
+      core.info(`Attempting to run command: ${cmd}`)
       result = execSync(cmd, {cwd: workspace}).toString()
       cmdSuccessful = true
       break
@@ -43,6 +43,10 @@ GetNxAffectedProps): Record<string, any> {
     // `nx  print-affected ${args}`,
     `npx nx show projects --affected --json ${args}`
   ]
+
+  core.info(`Command: ${commands.join('\n')}`)
+  core.info(`args: ${args}`)
+
   const result = executeNxCommands({commands, workspace})
 
   if (!result) {
