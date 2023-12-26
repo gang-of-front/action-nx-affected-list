@@ -9,17 +9,13 @@ export async function run(workspace = '.'): Promise<void> {
 
     core.info(`using dir: ${GITHUB_WORKSPACE}`)
 
-    const result = getNxAffected({
+    const projects = getNxAffected({
       base,
       head,
-      type: 'apps',
       workspace: GITHUB_WORKSPACE
     })
 
-    const {projects} = result
-
-    core.debug(`Result: ${result}`)
-    core.debug(`Result projects: ${projects}`)
+    core.debug(`Result: ${projects}`)
     core.setOutput('affected', projects)
     core.setOutput('hasAffected', projects.length > 0)
     core.info(

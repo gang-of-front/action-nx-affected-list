@@ -38,9 +38,10 @@ export function getNxAffected({
 GetNxAffectedProps): Record<string, any> {
   const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`
   const commands = [
+    // https://nx.dev/nx-api/nx/documents/show
     // `./node_modules/.bin/nx print-affected ${args}`,
     // `nx  print-affected ${args}`,
-    `npx nx print-affected ${args}`
+    `npx nx show projects --affected --json ${args}`
   ]
   const result = executeNxCommands({commands, workspace})
 
