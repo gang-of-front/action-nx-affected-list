@@ -48,12 +48,15 @@ function run(workspace = '.') {
             const { GITHUB_WORKSPACE = workspace } = process.env;
             const base = core.getInput('base');
             const head = core.getInput('head');
+            const type = core.getInput('type');
             core.info(`using dir: ${GITHUB_WORKSPACE}`);
             core.info(`input base: ${base}`);
-            core.info(`input headdi: ${head}`);
+            core.info(`input head: ${head}`);
+            core.info(`input type: ${type}`);
             const projects = (0, nx_1.getNxAffected)({
                 base,
                 head,
+                type,
                 workspace: GITHUB_WORKSPACE
             });
             core.info(`Result: ${projects}`);
@@ -125,8 +128,11 @@ const executeNxCommands = ({ commands, workspace }) => {
     }
     return result;
 };
-function getNxAffected({ base, head, workspace }) {
-    const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`;
+function getNxAffected({ base, head, type, workspace }) {
+    const inputBase = base && `--base=${base}`;
+    const inputHead = head && `--head=${head}`;
+    const inputType = type && `--type=${type}`;
+    const args = [inputBase, inputHead, inputType].filter(Boolean).join(' ');
     const commands = [
         // https://nx.dev/nx-api/nx/documents/show
         // `./node_modules/.bin/nx print-affected ${args}`,
