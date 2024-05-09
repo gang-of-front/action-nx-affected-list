@@ -7,6 +7,9 @@ inputs:
   head:
     description: Latest commit of the current branch (usually HEAD)
     required: false
+  type:
+    description: Type of application app,lib
+    required: false
 
 outputs:
   affected:

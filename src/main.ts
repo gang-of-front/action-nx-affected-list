@@ -6,14 +6,17 @@ export async function run(workspace = '.'): Promise<void> {
     const {GITHUB_WORKSPACE = workspace} = process.env
     const base = core.getInput('base')
     const head = core.getInput('head')
+    const type = core.getInput('type')
 
     core.info(`using dir: ${GITHUB_WORKSPACE}`)
     core.info(`input base: ${base}`)
-    core.info(`input headdi: ${head}`)
+    core.info(`input head: ${head}`)
+    core.info(`input type: ${type}`)
 
     const projects = getNxAffected({
       base,
       head,
+      type,
       workspace: GITHUB_WORKSPACE
     })
 

@@ -33,10 +33,15 @@ const executeNxCommands = ({
 export function getNxAffected({
   base,
   head,
+  type,
   workspace
 }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
 GetNxAffectedProps): Record<string, any> {
-  const args = `${base ? `--base=${base}` : ''} ${head ? `--head=${head}` : ''}`
+  const inputBase = base && `--base=${base}`
+  const inputHead = head && `--head=${head}`
+  const inputType = type && `--type=${type}`
+
+  const args = [inputBase, inputHead, inputType].filter(Boolean).join(' ')
   const commands = [
     // https://nx.dev/nx-api/nx/documents/show
     // `./node_modules/.bin/nx print-affected ${args}`,
